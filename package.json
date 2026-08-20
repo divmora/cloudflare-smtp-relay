@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node --test 'test/**/*.test.js'"
+    "test": "node --test test/*.test.js"
   },
   "description": "A robust, modular Node.js SMTP relay server designed to receive standard SMTP connections and forward emails seamlessly via the Cloudflare REST API.",
   "keywords": [
