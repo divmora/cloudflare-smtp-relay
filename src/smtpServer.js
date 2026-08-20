@@ -102,5 +102,4 @@ server.on('error', err => {
 });
 
 module.exports = server;
-module.exports.server = server;
 module.exports.isAddressAllowed = isAddressAllowed;

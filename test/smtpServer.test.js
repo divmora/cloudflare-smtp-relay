@@ -29,4 +29,13 @@ test('isAddressAllowed validation logic', async (t) => {
     assert.equal(isAddressAllowed('anyone@company.com', allowedEmails, allowedDomains), true);
     assert.equal(isAddressAllowed('stranger@unrelated.com', allowedEmails, allowedDomains), false);
   });
+
+  await t.test('server can start listening and close without infinite loop or stack error', (_, done) => {
+    const server = require('../src/smtpServer');
+    server.listen(0, '127.0.0.1', () => {
+      server.close(() => {
+        done();
+      });
+    });
+  });
 });
