@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.1.0...v1.1.1) (2026-08-20)
+
+
+### Bug Fixes
+
+* remove server.server self-reference that broke SMTPServer.listen ([400c1f2](https://github.com/divmora/cloudflare-smtp-relay/commit/400c1f2a164635c865b837a0942758a9df42c18b))
+
 ## [1.1.0](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.0.0...v1.1.0) (2026-08-20)
 
 
