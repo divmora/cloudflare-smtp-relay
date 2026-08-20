@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test 'test/**/*.test.js'"
   },
   "description": "A robust, modular Node.js SMTP relay server designed to receive standard SMTP connections and forward emails seamlessly via the Cloudflare REST API.",
   "keywords": [
@@ -19,6 +19,14 @@
   ],
   "author": "Nitin Goyal",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/divmora/cloudflare-smtp-relay.git"
+  },
+  "bugs": {
+    "url": "https://github.com/divmora/cloudflare-smtp-relay/issues"
+  },
+  "homepage": "https://deepwiki.com/divmora/cloudflare-smtp-relay",
   "dependencies": {
     "dotenv": "^17.4.2",
     "mailparser": "^3.9.8",

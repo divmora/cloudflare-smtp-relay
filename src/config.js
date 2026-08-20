@@ -33,6 +33,9 @@ function loadConfig() {
           clearInterval(reloadIntervalId);
         }
         reloadIntervalId = setInterval(loadConfig, intervalMs);
+        if (reloadIntervalId.unref) {
+          reloadIntervalId.unref();
+        }
       } else if (reloadIntervalId) {
         // Interval set to 0 or removed, so stop reloading
         clearInterval(reloadIntervalId);
@@ -49,6 +52,7 @@ function loadConfig() {
 loadConfig();
 
 module.exports = {
+  loadConfig,
   getSMTPPort: () => loadedConfig.global.smtp_port || 587,
   getSMTPHost: () => loadedConfig.global.smtp_host || '127.0.0.1',
   getCloudflareAccountID: () => loadedConfig.global.cloudflare_account_id,

@@ -1,0 +1,60 @@
+name: Bug Report
+description: Report an issue or bug in Cloudflare SMTP Relay
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue! Please provide as much detail as possible.
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Start server with config '...'
+        2. Send email using '...'
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Log Output
+      description: Please copy and paste any relevant logs (ensure no sensitive tokens or passwords are included).
+      render: shell
+    validations:
+      required: false
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Deployment Environment
+      options:
+        - Local Node.js
+        - Docker / Docker Compose
+        - Kubernetes
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Node.js & Relay Version
+      placeholder: e.g. Node 20.x, relay v1.0.0
+    validations:
+      required: false

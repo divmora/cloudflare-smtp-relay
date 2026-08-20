@@ -11,3 +11,18 @@ server.listen(port, host, () => {
   console.log(`☁️  Cloudflare HTTPS integration active`);
   console.log(`==============================================\n`);
 });
+
+function handleShutdown(signal) {
+  console.log(`\n[Server] Received ${signal}. Shutting down gracefully...`);
+  server.close(() => {
+    console.log('[Server] SMTP relay server closed.');
+    process.exit(0);
+  });
+  setTimeout(() => {
+    console.error('[Server] Forced shutdown after timeout.');
+    process.exit(1);
+  }, 5000).unref();
+}
+
+process.on('SIGTERM', () => handleShutdown('SIGTERM'));
+process.on('SIGINT', () => handleShutdown('SIGINT'));

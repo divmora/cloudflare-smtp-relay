@@ -3,6 +3,18 @@ const { simpleParser } = require('mailparser');
 const { getConfig } = require('./config');
 const { sendViaCloudflare } = require('./cloudflare');
 
+function isAddressAllowed(email, allowedEmails, allowedDomains) {
+  if ((!allowedEmails || allowedEmails.length === 0) && (!allowedDomains || allowedDomains.length === 0)) {
+    return true; // No restrictions
+  }
+  if (allowedEmails && allowedEmails.includes(email)) return true;
+  if (allowedDomains && email) {
+    const domain = email.split('@')[1];
+    if (allowedDomains.includes(domain)) return true;
+  }
+  return false;
+}
+
 const server = new SMTPServer({
   allowInsecureAuth: true,
   
@@ -50,22 +62,10 @@ const server = new SMTPServer({
         const userConfig = config.users[username] || {};
         const globalConfig = config.global || {};
 
-        const isAllowed = (email, allowedEmails, allowedDomains) => {
-          if ((!allowedEmails || allowedEmails.length === 0) && (!allowedDomains || allowedDomains.length === 0)) {
-            return true; // No restrictions
-          }
-          if (allowedEmails && allowedEmails.includes(email)) return true;
-          if (allowedDomains) {
-            const domain = email.split('@')[1];
-            if (allowedDomains.includes(domain)) return true;
-          }
-          return false;
-        };
-
         const allowedFromEmails = userConfig.allowed_from_emails && userConfig.allowed_from_emails.length > 0 ? userConfig.allowed_from_emails : globalConfig.allowed_from_emails;
         const allowedFromDomains = userConfig.allowed_from_domains && userConfig.allowed_from_domains.length > 0 ? userConfig.allowed_from_domains : globalConfig.allowed_from_domains;
         
-        if (!isAllowed(sender.address, allowedFromEmails, allowedFromDomains)) {
+        if (!isAddressAllowed(sender.address, allowedFromEmails, allowedFromDomains)) {
           console.warn(`[SMTP] Blocked email: Sender address ${sender.address} is not allowed for user ${username}.`);
           return callback(new Error(`Sender address ${sender.address} is not allowed for this user.`));
         }
@@ -80,7 +80,7 @@ const server = new SMTPServer({
         if (parsed.bcc && parsed.bcc.value) parsed.bcc.value.forEach(v => allAddressesToValidate.add(v.address));
 
         for (const address of allAddressesToValidate) {
-          if (!isAllowed(address, allowedToEmails, allowedToDomains)) {
+          if (!isAddressAllowed(address, allowedToEmails, allowedToDomains)) {
             console.warn(`[SMTP] Blocked email: Recipient address ${address} is not allowed for user ${username}.`);
             return callback(new Error(`Recipient address ${address} is not allowed for this user.`));
           }
@@ -102,3 +102,5 @@ server.on('error', err => {
 });
 
 module.exports = server;
+module.exports.server = server;
+module.exports.isAddressAllowed = isAddressAllowed;
