@@ -34,7 +34,7 @@
     "yaml": "^2.8.4"
   },
   "devDependencies": {
-    "nodemailer": "^8.0.7"
+    "nodemailer": "^9.0.6"
   },
   "packageManager": "pnpm@10.29.1"
 }
