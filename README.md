@@ -1,11 +1,12 @@
 # Cloudflare SMTP Relay
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/divmora/cloudflare-smtp-relay)
-[![GitHub Release](https://img.shields.io/github/v/release/divmora/cloudflare-smtp-relay?style=flat-square)](https://github.com/divmora/cloudflare-smtp-relay/releases)
-[![CI](https://img.shields.io/github/actions/workflow/status/divmora/cloudflare-smtp-relay/ci.yml?branch=main&label=CI&style=flat-square)](https://github.com/divmora/cloudflare-smtp-relay/actions/workflows/ci.yml)
-[![Docker Image](https://img.shields.io/badge/ghcr.io-divmora%2Fcloudflare--smtp--relay-blue?logo=docker&style=flat-square)](https://github.com/divmora/cloudflare-smtp-relay/pkgs/container/cloudflare-smtp-relay)
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg?style=flat-square)](LICENSE)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg?style=flat-square&logo=node.js)](https://nodejs.org)
+[![Latest Release](https://img.shields.io/github/v/release/divmora/cloudflare-smtp-relay?logo=github)](https://github.com/divmora/cloudflare-smtp-relay/releases)
+[![Documentation: DeepWiki](https://img.shields.io/badge/docs-DeepWiki-blue.svg)](https://deepwiki.com/divmora/cloudflare-smtp-relay)
+[![CI/CD](https://github.com/divmora/cloudflare-smtp-relay/actions/workflows/ci.yml/badge.svg)](https://github.com/divmora/cloudflare-smtp-relay/actions)
+[![Docker Image](https://img.shields.io/badge/ghcr.io-divmora%2Fcloudflare--smtp--relay-blue?logo=docker)](https://github.com/divmora/cloudflare-smtp-relay/pkgs/container/cloudflare-smtp-relay)
+[![License: BSL 1.1](https://img.shields.io/badge/License-BSL_1.1-blue.svg)](https://github.com/divmora/.github/blob/main/LICENSING.md)
+[![Security Policy](https://img.shields.io/badge/Security-Policy-green.svg)](SECURITY.md)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg?logo=node.js)](https://nodejs.org)
 
 A robust, modular Node.js SMTP relay server designed to receive standard SMTP connections and forward emails seamlessly via the Cloudflare REST API.
 
@@ -208,6 +209,22 @@ SMTP_PORT=587 SMTP_USERNAME=example_user SMTP_PASSWORD=example_password SENDER_E
 
 ---
 
+## Build & Development Automation
+
+A standardized `Makefile` is provided to streamline common development tasks:
+
+| Command | Description |
+|---|---|
+| `make dev-setup` | Install project dependencies (`pnpm install`) |
+| `make test` | Run the automated unit test suite (`pnpm test`) |
+| `make test-client` | Run the end-to-end Nodemailer verification client |
+| `make lint` | Run syntax validation across all JavaScript files |
+| `make fmt` | Check code formatting |
+| `make docker-build` | Build local Docker container image |
+| `make clean` | Clean up temporary files, caches, and test artifacts |
+
+---
+
 ## Project Structure
 
 ```
@@ -215,9 +232,10 @@ cloudflare-smtp-relay/
 ├── .github/
 │   ├── ISSUE_TEMPLATE/        # GitHub issue templates (bug reports, feature requests)
 │   ├── workflows/
-│   │   ├── ci.yml             # Automated CI tests across Node versions
-│   │   ├── publish.yml        # Docker image build & publish to GHCR
-│   │   └── release.yml        # Automated GitHub Release generation on tags
+│   │   ├── ci.yml             # Automated CI tests across Node versions (18, 20, 22)
+│   │   ├── docker-publish.yml # Docker image build & publish to GHCR
+│   │   ├── release-please.yml # Release Please automation via reusable workflow
+│   │   └── semantic-pull-request.yml # Semantic PR title linter
 │   └── PULL_REQUEST_TEMPLATE.md
 ├── k8s/                       # Kubernetes deployment, service, and configmap
 │   ├── configmap.yaml
@@ -231,19 +249,20 @@ cloudflare-smtp-relay/
 │   ├── cloudflare.test.js
 │   ├── config.test.js
 │   └── smtpServer.test.js
-├── .release-please-manifest.json # Release Please manifest tracking versions
+├── .gitignore                 # Standard git ignore rules
+├── .release-please-config.json # Release Please configuration
+├── .release-please-manifest.json # Version baseline tracker
 ├── AGENTS.md                  # Instructions and architecture overview for AI agents
-├── CODE_OF_CONDUCT.md         # Contributor Covenant Code of Conduct
-├── CONTRIBUTING.md            # Guidelines for contributing
+├── CONTRIBUTING.md            # Guidelines for contributing & Conventional Commits
 ├── Dockerfile                 # Container image specification
-├── LICENSE                    # ISC License
+├── LICENSE                    # Business Source License 1.1 (BSL 1.1)
+├── Makefile                   # Standardized build automation targets
 ├── README.md                  # Project documentation
 ├── SECURITY.md                # Security policy and vulnerability disclosure
 ├── config.example.yml         # Sample configuration template
 ├── docker-compose.yml         # Local container orchestration
 ├── index.js                   # Application entry point
 ├── package.json
-├── release-please-config.json # Release Please packaging and changelog configuration
 └── test-client.js             # End-to-end SMTP client verification script
 ```
 
@@ -253,11 +272,20 @@ cloudflare-smtp-relay/
 
 - **AI Agents & Contributors:** Read [AGENTS.md](AGENTS.md) for code conventions, architecture maps, and guidelines.
 - **Contributions:** Read [CONTRIBUTING.md](CONTRIBUTING.md) to get started with pull requests and issues.
-- **Code of Conduct:** Please review our [Code of Conduct](CODE_OF_CONDUCT.md).
+- **Code of Conduct:** Please review our [Code of Conduct](https://github.com/divmora/.github/blob/main/CODE_OF_CONDUCT.md) (inherited from `.github`).
 - **Security:** To report vulnerabilities, refer to [SECURITY.md](SECURITY.md).
 
 ---
 
-## License
+## License & Commercial Use
 
-This project is licensed under the [ISC License](LICENSE).
+This project is licensed under the **Business Source License 1.1 (BSL 1.1)**.
+
+- **Non-Production Use:** Free of charge for development, testing, staging, QA, CI/CD automated validation, educational purposes, and proof-of-concept evaluation.
+- **Production & Commercial Use:** Deploying or executing in production environments, offering as a hosted service, or embedding into commercial products requires an active commercial license (EULA) from **DIVMORA Technologies**.
+- **Open Source Transition:** Each release automatically converts to the **Apache License, Version 2.0** three (3) years after its release date.
+
+For commercial inquiries, licensing agreements, and enterprise support:
+- 📧 Email: [licensing@divmora.com](mailto:licensing@divmora.com)
+- 🌐 Website: [divmora.com](https://divmora.com)
+- 📄 Policy: See [Licensing FAQ](https://github.com/divmora/.github/blob/main/LICENSING.md) and [LICENSE](LICENSE).

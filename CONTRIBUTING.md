@@ -1,12 +1,12 @@
 # Contributing to Cloudflare SMTP Relay
 
-Thank you for your interest in contributing to **Cloudflare SMTP Relay**! We welcome bug reports, feature requests, documentation improvements, and code contributions.
+Thank you for your interest in contributing to **Cloudflare SMTP Relay**! We welcome bug reports, feature requests, documentation improvements, and code contributions across the **DIVMORA Technologies** community.
 
 ---
 
 ## Code of Conduct
 
-All contributors are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT.md). Please report any unacceptable behavior to the repository maintainers.
+All contributors and participants are expected to adhere to our [Code of Conduct](https://github.com/divmora/.github/blob/main/CODE_OF_CONDUCT.md). Please report any unacceptable behavior to the repository maintainers or `security@divmora.com`.
 
 ---
 
@@ -24,15 +24,16 @@ All contributors are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT
 ### 3. Submitting Pull Requests (PRs)
 - Fork the repository and create a new feature/fix branch from `main`.
 - Keep changes concise and focused on a single topic.
-- Ensure all automated unit tests pass before submitting.
+- Ensure all automated unit tests and linters pass before submitting.
 - Write tests for new functionality or bug fixes.
-- Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for commit messages:
-  - `feat:` A new feature
-  - `fix:` A bug fix
-  - `docs:` Documentation only changes
-  - `test:` Adding or updating tests
-  - `refactor:` A code change that neither fixes a bug nor adds a feature
-  - `ci:` Changes to CI configuration and scripts
+- Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for commit messages and PR titles:
+  - `feat:` A new feature or capability (triggers a minor version bump)
+  - `fix:` A bug fix or patch (triggers a patch version bump)
+  - `docs:` Documentation improvements or updates
+  - `test:` Adding or updating automated tests
+  - `refactor:` Code refactoring without functional or API modification
+  - `chore:` Maintenance, dependencies, tooling, or CI updates
+  - `ci:` Changes to CI/CD workflows and automation scripts
 
 ---
 
@@ -41,6 +42,7 @@ All contributors are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (version 18 or higher; 20+ recommended)
 - [pnpm](https://pnpm.io/) (version 9 or 10)
+- [Make](https://www.gnu.org/software/make/) (for standard build automation)
 - [Docker](https://www.docker.com/) (optional, for containerized testing)
 
 ### Getting Started
@@ -51,9 +53,10 @@ All contributors are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT
    cd cloudflare-smtp-relay
    ```
 
-2. **Install dependencies:**
+2. **Set up local development environment:**
    ```bash
-   pnpm install
+   make dev-setup
+   # Or: pnpm install
    ```
 
 3. **Set up local configuration:**
@@ -62,9 +65,10 @@ All contributors are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT
    ```
    Edit `config.yml` with your test settings.
 
-4. **Run tests:**
+4. **Run unit tests and linters:**
    ```bash
-   pnpm test
+   make test
+   make lint
    ```
 
 5. **Start the local server:**
@@ -72,10 +76,25 @@ All contributors are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT
    pnpm start
    ```
 
-6. **Test sending an email:**
+6. **Test sending an email with test client:**
    ```bash
-   node test-client.js
+   make test-client
+   # Or: node test-client.js
    ```
+
+---
+
+## Makefile Automation Commands
+
+| Target | Description |
+|---|---|
+| `make dev-setup` | Install project dependencies (`pnpm install`) |
+| `make test` | Run native Node.js test suite (`pnpm test`) |
+| `make test-client` | Run end-to-end Nodemailer email dispatch verification |
+| `make lint` | Verify JavaScript syntax across all source and test files |
+| `make fmt` | Check code formatting |
+| `make clean` | Remove temporary cache and coverage files |
+| `make docker-build` | Build local Docker container image |
 
 ---
 
@@ -84,6 +103,14 @@ All contributors are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT
 Before submitting your PR, ensure:
 - [ ] Code follows existing style and architecture (CommonJS, clean modular design).
 - [ ] Tests have been added or updated for your changes.
-- [ ] `pnpm test` passes locally.
+- [ ] `make test` and `make lint` pass cleanly locally.
 - [ ] Documentation (`README.md`, `config.example.yml`, `k8s/` if applicable) is updated.
+- [ ] Commit messages and PR title strictly follow Conventional Commits.
 - [ ] No secrets or sensitive configuration values are committed.
+
+---
+
+## Licensing of Contributions
+
+By submitting a pull request or contributing to this repository, you agree that your contributions will be licensed under the project's [Business Source License 1.1 (BSL 1.1)](LICENSE) terms.
+

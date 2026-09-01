@@ -4,28 +4,32 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.x.x   | :white_check_mark: |
-| < 1.0.0 | :x:                |
+| 0.1.x   | :white_check_mark: |
+| < 0.1.0 | :x:                |
 
 ---
 
 ## Reporting a Vulnerability
 
-The maintainers of Cloudflare SMTP Relay take security seriously. If you discover a security vulnerability, please do **not** open a public issue.
+The **DIVMORA Technologies** team and the maintainers of **Cloudflare SMTP Relay** take security seriously. If you discover a security vulnerability, please do **not** open a public issue, discussion, or pull request.
 
-Instead, please report security concerns via:
-1. **GitHub Private Security Advisories**: If available on the repository, submit an advisory directly at `https://github.com/divmora/cloudflare-smtp-relay/security/advisories/new`.
-2. **Direct Contact**: Contact the maintainers directly through GitHub or via security disclosure channels provided by the repository owners.
+Instead, please report security concerns privately via:
+1. **Email:** Send full details to **security@divmora.com**.
+2. **GitHub Security Advisories:** Submit a private advisory at `https://github.com/divmora/cloudflare-smtp-relay/security/advisories/new`.
+
+For organization-wide security principles and policies, please review the [DIVMORA Security Policy](https://github.com/divmora/.github/blob/main/SECURITY.md).
 
 ### Information to Include
 - Detailed description of the vulnerability and its potential impact.
 - Clear steps to reproduce or proof-of-concept (PoC) code.
+- Affected versions, deployment environment, and configuration.
 - Any suggested mitigations or patches if available.
 
-### Response Timeline
-- We will acknowledge receipt of your report within 48 hours.
-- We will provide regular updates on our progress investigating and fixing the issue.
-- Once a fix is verified and released, appropriate credit will be acknowledged in release notes (unless anonymity is requested).
+### Response & Disclosure SLA
+- **Acknowledgment:** We will acknowledge receipt of your report within **48 hours**.
+- **Triage & Assessment:** Our security and engineering team will investigate, validate, and keep you informed.
+- **Fix & Release:** A fix will be developed, tested, and released as quickly as possible.
+- **Coordinated Disclosure:** Appropriate credit will be acknowledged in release notes and security advisories (unless anonymity is requested).
 
 ---
 
@@ -36,3 +40,4 @@ When deploying this relay in production:
 - **Network Isolation:** Deploy behind a secure internal network, VPC, or VPN if unencrypted SMTP authentication is permitted.
 - **Protect Credentials:** Never commit `config.yml` or `.env` to version control. Use Kubernetes Secrets or environment variables in production.
 - **Enforce Restrictions:** Configure `allowed_from_emails`, `allowed_from_domains`, `allowed_to_emails`, and `allowed_to_domains` to prevent unauthorized relaying and potential open-relay abuse.
+

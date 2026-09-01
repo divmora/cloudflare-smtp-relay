@@ -35,9 +35,10 @@ Welcome to the **Cloudflare SMTP Relay** codebase. This document outlines archit
 | `Dockerfile` | Multi-stage / Alpine-based container definition using `node:20-alpine` and `pnpm`. |
 | `docker-compose.yml` | Local orchestration mounting `config.yml` read-only. |
 | `k8s/` | Kubernetes manifests (`deployment.yaml`, `service.yaml`, `configmap.yaml`). |
-| `release-please-config.json` | Release Please configuration defining package strategies and changelog sections. |
+| `Makefile` | Standardized developer automation targets (`build`, `test`, `lint`, `fmt`, `clean`). |
+| `.release-please-config.json` | Release Please configuration defining package strategies and changelog sections. |
 | `.release-please-manifest.json` | Release Please manifest tracking the current package version. |
-| `.github/workflows/` | GitHub Actions for CI testing (`ci.yml`), Docker publishing (`publish.yml`), and Release Please automation (`release.yml`). |
+| `.github/workflows/` | GitHub Actions for CI testing (`ci.yml`), Docker publishing (`docker-publish.yml`), Release Please (`release-please.yml`), and PR linting (`semantic-pull-request.yml`). |
 
 ---
 
@@ -46,14 +47,18 @@ Welcome to the **Cloudflare SMTP Relay** codebase. This document outlines archit
 ### Prerequisites
 - Node.js >= 18 (Node 20+ recommended)
 - `pnpm` >= 9 (uses `pnpm@10` in lockfile)
+- `make`
 
 ### Commands
 ```bash
-# Install dependencies
-pnpm install
+# Setup dependencies
+make dev-setup      # or pnpm install
 
 # Run automated tests
-pnpm test
+make test           # or pnpm test
+
+# Run linter / syntax check
+make lint
 
 # Run a specific test suite
 node --test test/config.test.js
@@ -62,7 +67,7 @@ node --test test/config.test.js
 pnpm start
 
 # Run end-to-end test client
-node test-client.js
+make test-client    # or node test-client.js
 ```
 
 ### Writing Tests

@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-smtp-relay",
-  "version": "1.1.1",
+  "version": "0.1.0",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -17,8 +17,8 @@
     "rest-api",
     "smtp-server"
   ],
-  "author": "Nitin Goyal",
-  "license": "ISC",
+  "author": "DIVMORA Technologies",
+  "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/divmora/cloudflare-smtp-relay.git"
