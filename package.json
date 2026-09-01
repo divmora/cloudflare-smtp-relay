@@ -29,7 +29,7 @@
   "homepage": "https://deepwiki.com/divmora/cloudflare-smtp-relay",
   "dependencies": {
     "dotenv": "^17.4.2",
-    "mailparser": "^3.9.8",
+    "mailparser": "^3.9.17",
     "smtp-server": "^3.18.4",
     "yaml": "^2.8.4"
   },
