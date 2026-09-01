@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/divmora/cloudflare-smtp-relay/compare/v0.2.0...v0.2.1) (2026-09-01)
+
+
+### Miscellaneous Chores
+
+* add dependabot configuration for actions, npm, and docker ([12dbce3](https://github.com/divmora/cloudflare-smtp-relay/commit/12dbce3424f6ef4409bad4174a60990300466847))
+
 ## [0.2.0](https://github.com/divmora/cloudflare-smtp-relay/compare/v0.1.0...v0.2.0) (2026-09-01)
 
 
