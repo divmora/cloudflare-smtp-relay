@@ -1,0 +1,9 @@
+node_modules
+.git
+.github
+config.yml
+.env
+test
+.release-please-manifest.json
+release-please-config.json
+*.md
