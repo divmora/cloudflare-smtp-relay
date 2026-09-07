@@ -51,7 +51,7 @@ Welcome to the **Cloudflare SMTP Relay** codebase. This document outlines archit
 ## 3. Development & Testing Guidelines
 
 ### Prerequisites
-- Node.js >= 22 (Node 24/26 recommended)
+- Node.js: 22, 24, or 26 only
 - `pnpm` >= 9 (uses `pnpm@10` in lockfile)
 - `make`
 

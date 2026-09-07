@@ -6,7 +6,7 @@
 [![Docker Image](https://img.shields.io/badge/ghcr.io-divmora%2Fcloudflare--smtp--relay-blue?logo=docker)](https://github.com/divmora/cloudflare-smtp-relay/pkgs/container/cloudflare-smtp-relay)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Security Policy](https://img.shields.io/badge/Security-Policy-green.svg)](SECURITY.md)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen.svg?logo=node.js)](https://nodejs.org)
+[![Node.js](https://img.shields.io/badge/node-22%20%7C%2024%20%7C%2026-brightgreen.svg?logo=node.js)](https://nodejs.org)
 
 A robust, modular Node.js SMTP relay server designed to receive standard SMTP connections and forward emails seamlessly via the Cloudflare REST API.
 
@@ -51,7 +51,7 @@ A robust, modular Node.js SMTP relay server designed to receive standard SMTP co
 
 ## Prerequisites
 
-- **Node.js** >= 22.0.0 (Node.js 24/26 recommended)
+- **Node.js** 22, 24, or 26 only
 - **pnpm** (Package manager, version 9 or 10)
 - **Docker & Docker Compose** (Optional, for containerized deployments)
 - **Cloudflare Account** with an active Account ID and an API Token having Email Sending permissions for your verified domains.
