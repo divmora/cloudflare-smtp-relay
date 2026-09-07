@@ -6,7 +6,7 @@
 [![Docker Image](https://img.shields.io/badge/ghcr.io-divmora%2Fcloudflare--smtp--relay-blue?logo=docker)](https://github.com/divmora/cloudflare-smtp-relay/pkgs/container/cloudflare-smtp-relay)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Security Policy](https://img.shields.io/badge/Security-Policy-green.svg)](SECURITY.md)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg?logo=node.js)](https://nodejs.org)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen.svg?logo=node.js)](https://nodejs.org)
 
 A robust, modular Node.js SMTP relay server designed to receive standard SMTP connections and forward emails seamlessly via the Cloudflare REST API.
 
@@ -51,7 +51,7 @@ A robust, modular Node.js SMTP relay server designed to receive standard SMTP co
 
 ## Prerequisites
 
-- **Node.js** >= 18.0.0 (Node.js 20+ recommended)
+- **Node.js** >= 22.0.0 (Node.js 24/26 recommended)
 - **pnpm** (Package manager, version 9 or 10)
 - **Docker & Docker Compose** (Optional, for containerized deployments)
 - **Cloudflare Account** with an active Account ID and an API Token having Email Sending permissions for your verified domains.
@@ -231,7 +231,7 @@ A standardized `Makefile` is provided to streamline common development tasks:
 cloudflare-smtp-relay/
 ├── .github/
 │   └── workflows/
-│       ├── ci.yml             # Automated CI tests across Node versions (20, 22, 24)
+│       ├── ci.yml             # Automated CI tests across Node versions (22, 24, 26)
 │       ├── docker-publish.yml # Docker image build & publish to GHCR
 │       ├── release-please.yml # Release Please automation via reusable workflow
 │       └── semantic-pull-request.yml # Semantic PR title linter
@@ -256,6 +256,7 @@ cloudflare-smtp-relay/
 ├── LICENSE                    # Apache License 2.0
 ├── Makefile                   # Standardized build automation targets
 ├── README.md                  # Project documentation
+├── ROADMAP.md                 # Living product roadmap (upcoming features & debt)
 ├── SECURITY.md                # Security policy and vulnerability disclosure
 ├── config.example.yml         # Sample configuration template
 ├── docker-compose.yml         # Local container orchestration
@@ -268,6 +269,7 @@ cloudflare-smtp-relay/
 
 ## Community & Contributing
 
+- **Product Roadmap:** Track planned capabilities, optimizations, and technical debt in [ROADMAP.md](ROADMAP.md).
 - **AI Agents & Contributors:** Read [AGENTS.md](AGENTS.md) for code conventions, architecture maps, and guidelines.
 - **Contributions:** Read [CONTRIBUTING.md](CONTRIBUTING.md) to get started with pull requests and issues.
 - **Code of Conduct:** Please review our [Code of Conduct](https://github.com/divmora/.github/blob/main/CODE_OF_CONDUCT.md) (inherited from `.github`).

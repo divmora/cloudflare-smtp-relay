@@ -20,6 +20,11 @@ Welcome to the **Cloudflare SMTP Relay** codebase. This document outlines archit
    - Converts parsed data and attachments (base64 encoded) into the Cloudflare Email Sending API payload.
    - Dispatches HTTPS POST request with Bearer authorization token.
 
+### Living Product Roadmap Management
+`ROADMAP.md` is the central living document tracking future capabilities, optimizations, and technical debt:
+- **Adding Items**: Whenever you or the user identify a capability, optimization, or edge-case improvement for future work, add it to `ROADMAP.md` under the appropriate category.
+- **Removing Items**: Once a feature is fully implemented, verified with tests, and committed, **remove it from `ROADMAP.md`** immediately to keep the roadmap focused on active upcoming tasks.
+
 ---
 
 ## 2. Codebase Map
@@ -30,9 +35,10 @@ Welcome to the **Cloudflare SMTP Relay** codebase. This document outlines archit
 | `src/config.js` | Configuration loader supporting hot-reload interval and environment variable overrides (`SMTP_RELAY_CONFIG_PATH`). |
 | `src/smtpServer.js` | SMTP server definition, authentication hook, recipient/sender rule validation (`isAddressAllowed`), and relay logic. |
 | `src/cloudflare.js` | Cloudflare REST API integration, payload formatting (To, Cc, Bcc, attachments), and error handling. |
+| `ROADMAP.md` | Living product roadmap tracking pending features, optimizations, and technical debt. |
 | `test-client.js` | Standalone test script using `nodemailer` to simulate sending an email with attachments through the relay. |
 | `test/` | Automated unit test suite using Node.js native test runner (`node --test`). |
-| `Dockerfile` | Multi-stage / Alpine-based container definition using `node:24-alpine` and `pnpm`. |
+| `Dockerfile` | Multi-stage / Alpine-based container definition using `node:26-alpine` and `pnpm`. |
 | `docker-compose.yml` | Local orchestration mounting `config.yml` read-only. |
 | `k8s/` | Kubernetes manifests (`deployment.yaml`, `service.yaml`, `configmap.yaml`). |
 | `Makefile` | Standardized developer automation targets (`build`, `test`, `lint`, `fmt`, `clean`). |
@@ -45,7 +51,7 @@ Welcome to the **Cloudflare SMTP Relay** codebase. This document outlines archit
 ## 3. Development & Testing Guidelines
 
 ### Prerequisites
-- Node.js >= 18 (Node 20+ recommended)
+- Node.js >= 22 (Node 24/26 recommended)
 - `pnpm` >= 9 (uses `pnpm@10` in lockfile)
 - `make`
 
@@ -127,7 +133,7 @@ smtp_users:
 - **Release Automation (`release.yml`)**:
   - Pushing tags matching `v*` (e.g., `v1.0.0`) automatically generates a GitHub Release with auto-generated release notes.
 - **Continuous Integration (`ci.yml`)**:
-  - Pull requests and commits to `main` are automatically tested across Node.js 18.x, 20.x, and 22.x.
+  - Pull requests and commits to `main` are automatically tested across Node.js 22.x, 24.x, and 26.x.
 
 ---
 
@@ -140,7 +146,7 @@ smtp_users:
   - `test:` Adding or updating tests
   - `refactor:` Code refactoring without behavior change
   - `ci:` Changes to CI/CD workflows
-- Keep `README.md`, `config.example.yml`, and `k8s/` files synchronized with any new configuration options or architectural changes.
+- Keep `README.md`, `ROADMAP.md`, `config.example.yml`, and `k8s/` files synchronized with any new configuration options or architectural changes.
 
 ---
 

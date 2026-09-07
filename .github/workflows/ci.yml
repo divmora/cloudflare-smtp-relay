@@ -12,7 +12,7 @@ jobs:
   ci:
     strategy:
       matrix:
-        node-version: ['20', '22', '24']
+        node-version: ['22', '24', '26']
     uses: divmora/.github/.github/workflows/node-ci.yml@main
     with:
       node-version: ${{ matrix.node-version }}

@@ -1,9 +1,9 @@
-FROM node:24-alpine
+FROM node:26-alpine
 
 WORKDIR /app
 
-# Enable Corepack for pnpm management
-RUN corepack enable
+# Install and enable Corepack for pnpm management
+RUN npm install -g corepack && corepack enable
 
 # Copy package files and install dependencies
 COPY package.json pnpm-lock.yaml ./

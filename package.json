@@ -36,5 +36,8 @@
   "devDependencies": {
     "nodemailer": "^8.0.7"
   },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "packageManager": "pnpm@10.29.1"
 }

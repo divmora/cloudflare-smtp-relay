@@ -40,7 +40,7 @@ All contributors and participants are expected to adhere to our [Code of Conduct
 ## Local Development Setup
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (version 18 or higher; 20+ recommended)
+- [Node.js](https://nodejs.org/) (version 22 or higher; 24/26 recommended)
 - [pnpm](https://pnpm.io/) (version 9 or 10)
 - [Make](https://www.gnu.org/software/make/) (for standard build automation)
 - [Docker](https://www.docker.com/) (optional, for containerized testing)
