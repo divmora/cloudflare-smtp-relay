@@ -31,7 +31,7 @@
     "dotenv": "^17.4.2",
     "mailparser": "^3.9.22",
     "smtp-server": "^3.19.8",
-    "yaml": "^2.9.0"
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
     "nodemailer": "^10.0.0"
