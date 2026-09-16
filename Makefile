@@ -1,4 +1,4 @@
-.PHONY: all dev-setup build test test-client lint fmt clean docker-build
+.PHONY: all dev-setup build test test-client lint fmt clean docker-build docker-build-multiarch
 
 all: test
 
@@ -28,3 +28,6 @@ clean:
 
 docker-build:
 	docker build -t cloudflare-smtp-relay:latest .
+
+docker-build-multiarch:
+	docker buildx build --platform linux/amd64,linux/arm64 -t cloudflare-smtp-relay:latest .

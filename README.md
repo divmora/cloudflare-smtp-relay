@@ -1,12 +1,12 @@
 # Cloudflare SMTP Relay
 
 [![Latest Release](https://img.shields.io/github/v/release/divmora/cloudflare-smtp-relay?logo=github)](https://github.com/divmora/cloudflare-smtp-relay/releases)
-[![Documentation: DeepWiki](https://img.shields.io/badge/docs-DeepWiki-blue.svg)](https://deepwiki.com/divmora/cloudflare-smtp-relay)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![CI/CD](https://github.com/divmora/cloudflare-smtp-relay/actions/workflows/ci.yml/badge.svg)](https://github.com/divmora/cloudflare-smtp-relay/actions)
 [![Docker Image](https://img.shields.io/badge/ghcr.io-divmora%2Fcloudflare--smtp--relay-blue?logo=docker)](https://github.com/divmora/cloudflare-smtp-relay/pkgs/container/cloudflare-smtp-relay)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Security Policy](https://img.shields.io/badge/Security-Policy-green.svg)](SECURITY.md)
 [![Node.js](https://img.shields.io/badge/node-22%20%7C%2024%20%7C%2026-brightgreen.svg?logo=node.js)](https://nodejs.org)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/divmora/cloudflare-smtp-relay)
+[![Security Policy](https://img.shields.io/badge/Security-Policy-green.svg)](SECURITY.md)
 
 A robust, modular Node.js SMTP relay server designed to receive standard SMTP connections and forward emails seamlessly via the Cloudflare REST API.
 
