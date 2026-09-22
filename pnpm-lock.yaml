@@ -22,8 +22,8 @@ importers:
         version: 2.9.0
     devDependencies:
       nodemailer:
-        specifier: ^10.0.0
-        version: 10.0.0
+        specifier: ^10.0.10
+        version: 10.0.10
 
 packages:
 
@@ -107,6 +107,10 @@ packages:
 
   nodemailer@10.0.0:
     resolution: {integrity: sha512-wdv+hXBg0iIPIOf108FaZyTxqjQpCvQeAJt9pHHTooPy/y3vQtI9eiImM9AIVKR3e/0FeMA1oueNfBjFJcaK+Q==}
+    engines: {node: '>=20.0.0'}
+
+  nodemailer@10.0.10:
+    resolution: {integrity: sha512-He9XskOFms62SyAKkLu8CcGcYHAo+BSHSsORI8s4PJH8qZgZY4L4lDfvyN0twvmbpyG+eGrxpyBlskj9d9rJ8A==}
     engines: {node: '>=20.0.0'}
 
   parseley@0.13.1:
@@ -237,6 +241,8 @@ snapshots:
       tlds: 1.261.0
 
   nodemailer@10.0.0: {}
+
+  nodemailer@10.0.10: {}
 
   parseley@0.13.1:
     dependencies:
