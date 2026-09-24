@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.1](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.0.0...v1.0.1) (2026-09-24)
+
+
+### Documentation
+
+* standardize badges, roadmap guidelines, and build targets ([cc7c3c3](https://github.com/divmora/cloudflare-smtp-relay/commit/cc7c3c3609018fafc4f7fbd394341359d1672715))
+
+
+### Miscellaneous Chores
+
+* **deps:** bump yaml, mailparser, smtp-server, and nodemailer ([a1f7e1d](https://github.com/divmora/cloudflare-smtp-relay/commit/a1f7e1d183f951c0fa9854c5f3681e1530251e23))
+
 ## [1.0.0](https://github.com/divmora/cloudflare-smtp-relay/compare/v0.2.0...v1.0.0) (2026-09-07)
 
 
