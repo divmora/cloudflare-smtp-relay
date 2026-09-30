@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.0.1...v1.0.2) (2026-09-30)
+
+
+### Miscellaneous Chores
+
+* **deps:** bump dotenv from 17.4.2 to 18.0.4 ([256f5ab](https://github.com/divmora/cloudflare-smtp-relay/commit/256f5abd74c1e3439691d731180e56e0cf750eea))
+
 ## [1.0.1](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.0.0...v1.0.1) (2026-09-24)
 
 
