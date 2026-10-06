@@ -30,7 +30,7 @@
   "dependencies": {
     "dotenv": "^18.0.4",
     "mailparser": "^3.9.28",
-    "smtp-server": "^3.19.13",
+    "smtp-server": "^3.19.16",
     "yaml": "^2.9.1"
   },
   "devDependencies": {
