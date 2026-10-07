@@ -28,16 +28,16 @@
   },
   "homepage": "https://deepwiki.com/divmora/cloudflare-smtp-relay",
   "dependencies": {
-    "dotenv": "^18.0.4",
-    "mailparser": "^3.9.28",
-    "smtp-server": "^3.19.13",
+    "dotenv": "^18.0.6",
+    "mailparser": "^3.9.36",
+    "smtp-server": "^3.19.17",
     "yaml": "^2.9.1"
   },
   "devDependencies": {
-    "nodemailer": "^10.0.10"
+    "nodemailer": "^10.0.16"
   },
   "engines": {
     "node": "22.x || 24.x || 26.x"
   },
-  "packageManager": "pnpm@10.29.1"
+  "packageManager": "pnpm@10.34.6"
 }
