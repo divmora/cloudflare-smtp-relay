@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.0.4...v1.1.0) (2026-10-15)
+
+
+### Features
+
+* add dedicated HTTP healthcheck endpoints (/healthz, /readyz) ([562b8df](https://github.com/divmora/cloudflare-smtp-relay/commit/562b8dfac8df2a3061cbdf914683c0d29ff13e59))
+
 ## [1.0.4](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.0.3...v1.0.4) (2026-10-15)
 
 
