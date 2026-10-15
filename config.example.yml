@@ -1,6 +1,9 @@
 global:
   smtp_host: "0.0.0.0"
   smtp_port: 587
+  health_host: "0.0.0.0"           # Healthcheck bind host (defaults to smtp_host)
+  health_port: 8080                # Healthcheck HTTP port (0 disables)
+  cloudflare_health_check_interval_ms: 60000 # How often to verify the Cloudflare token for /readyz (0 disables)
   config_refresh_interval_ms: 300000
   cloudflare_account_id: "YOUR_ACCOUNT_ID"
   cloudflare_api_token: "YOUR_API_TOKEN"

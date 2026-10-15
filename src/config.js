@@ -55,6 +55,15 @@ module.exports = {
   loadConfig,
   getSMTPPort: () => loadedConfig.global.smtp_port || 587,
   getSMTPHost: () => loadedConfig.global.smtp_host || '127.0.0.1',
+  getHealthPort: () => {
+    const p = loadedConfig.global.health_port;
+    return typeof p === 'number' ? p : 8080;
+  },
+  getHealthHost: () => loadedConfig.global.health_host || loadedConfig.global.smtp_host || '127.0.0.1',
+  getCloudflareHealthCheckIntervalMs: () => {
+    const v = loadedConfig.global.cloudflare_health_check_interval_ms;
+    return typeof v === 'number' ? v : 60000;
+  },
   getCloudflareAccountID: () => loadedConfig.global.cloudflare_account_id,
   getCloudflareAPIToken: () => loadedConfig.global.cloudflare_api_token,
   getConfig: () => loadedConfig

@@ -50,9 +50,6 @@ This document serves as the **living product roadmap** for Cloudflare SMTP Relay
     - `smtp_relay_emails_rejected_total`: Emails rejected due to auth or allowlist violations.
     - `smtp_relay_cloudflare_duration_seconds`: Histogram of Cloudflare REST API call latencies.
 
-- [ ] **Kubernetes Liveness & Readiness Probes (`/healthz`, `/readyz`)**
-  - Dedicated HTTP healthcheck endpoint for Kubernetes pods, validating both local SMTP port binding readiness and upstream Cloudflare API credential validation.
-
 - [ ] **OpenTelemetry (OTel) Distributed Tracing**
   - Propagate W3C Trace Context headers from inbound email headers into Cloudflare API requests and structured JSON logs.
 

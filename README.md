@@ -93,6 +93,9 @@ The relay server is configured via a YAML file (`config.yml` by default, or the 
 global:
   smtp_host: "0.0.0.0"             # Host interface to bind to (e.g. 127.0.0.1 or 0.0.0.0)
   smtp_port: 587                   # SMTP port to listen on
+  health_host: "0.0.0.0"           # Healthcheck bind host (defaults to smtp_host)
+  health_port: 8080                # Healthcheck HTTP port (default 8080, 0 disables)
+  cloudflare_health_check_interval_ms: 60000 # How often to verify the Cloudflare token for /readyz (0 disables)
   config_refresh_interval_ms: 300000 # Interval (in ms) to reload config file (0 or omitted = disabled)
   cloudflare_account_id: "YOUR_ACCOUNT_ID" # Cloudflare Account ID
   cloudflare_api_token: "YOUR_API_TOKEN"   # Cloudflare API Bearer Token
@@ -188,6 +191,13 @@ Kubernetes manifests are provided in the `k8s/` folder:
    ```
 
 ---
+
+## Health Checks
+
+A dedicated HTTP server (default port `8080`) exposes:
+
+- `GET /healthz` – liveness: returns `200` while the process is running.
+- `GET /readyz` – readiness: returns `200` when the SMTP listener is bound, Cloudflare credentials are configured, and the most recent periodic Cloudflare token verification succeeded (cached; probes never call Cloudflare directly, interval set by `cloudflare_health_check_interval_ms`), otherwise `503` with a JSON breakdown.
 
 ## Testing
 

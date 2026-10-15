@@ -13,7 +13,7 @@ RUN pnpm install --prod --frozen-lockfile
 COPY . .
 
 # Expose the SMTP port
-EXPOSE 587
+EXPOSE 587 8080
 
 # Start the application
 CMD ["node", "index.js"]
