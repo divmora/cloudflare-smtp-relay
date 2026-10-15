@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.0.3...v1.0.4) (2026-10-15)
+
+
+### Miscellaneous Chores
+
+* **deps:** bump nodejs dependencies ([d9a067b](https://github.com/divmora/cloudflare-smtp-relay/commit/d9a067b26345188e4a5758460fc5d38fc299eb0c))
+
 ## [1.0.3](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.0.2...v1.0.3) (2026-10-07)
 
 
