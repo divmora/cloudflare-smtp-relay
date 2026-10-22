@@ -12,18 +12,18 @@ importers:
         specifier: ^18.0.8
         version: 18.0.8
       mailparser:
-        specifier: ^3.9.39
-        version: 3.9.39
+        specifier: ^3.12.3
+        version: 3.12.3
       smtp-server:
-        specifier: ^3.19.22
-        version: 3.19.22
+        specifier: ^3.21.0
+        version: 3.21.0
       yaml:
         specifier: ^2.9.1
         version: 2.9.1
     devDependencies:
       nodemailer:
-        specifier: ^10.1.1
-        version: 10.1.1
+        specifier: ^10.2.1
+        version: 10.2.1
 
 packages:
 
@@ -32,8 +32,9 @@ packages:
     peerDependencies:
       selderee: ~0.12.0
 
-  '@zone-eu/mailsplit@5.4.21':
-    resolution: {integrity: sha512-a7DjD8zysu77OeLuAZRTMC6NDALc3smuKkaZv1QTJkq2kMa5CbEgVQuC7Nfd9LfMO92bkjxT41t8L3mkWDZe1Q==}
+  '@zone-eu/mailsplit@5.4.29':
+    resolution: {integrity: sha512-CCUNycmUjrV5M0wNf23waWAt9eOHczhjLbUQS7k0FNJvR0py9VSqHFt+tSl/D0+XI73VLG0U+PwYtq9R0zsm9Q==}
+    engines: {node: '>=20.0.0'}
 
   deepmerge-ts@8.0.2:
     resolution: {integrity: sha512-uqbvqLUMrc6p0MO+WBRtTxY55hmyh94WRwI5a++PZe54X+bfVh59FSN7uWCBCW1CCVjzjnrwzfI8zidE2obMMw==}
@@ -90,24 +91,35 @@ packages:
   leac@0.7.0:
     resolution: {integrity: sha512-qMrZeyEekgdRQ9o6a4NAB2EQZrv827GJdn1vnapwSJ90hWRB4TzUSunvacPkxQ2TnNqHNI1/zSt0hlo0crG8Jw==}
 
-  libbase64@1.3.3:
-    resolution: {integrity: sha512-6n4p3TUeQPimN4ANBTYQ5P4IpFx8p6cdanknnOBfw05XGtaG/k1LAtTSu79w7S07D1esy4qUfM8G4qvQncDWcw==}
+  libbase64@1.4.1:
+    resolution: {integrity: sha512-Nyh3H90B3gRtrcxIe56Ayy7635J0jmh6AbxbQgQae8wrSPQMH5wFqJChiMTB13yKG512L3YspbA5DzumhFTITA==}
+    engines: {node: '>=20.0.0'}
 
-  libmime@5.4.8:
-    resolution: {integrity: sha512-nsBApAZkontkOI4Kmg/7GyctCRraQ9Yxn7vZnzpHSOfqCmkt5/WTXpu5jk7a14REzW8OghKcbTY4bxx6rR9wSQ==}
+  libmime@5.6.3:
+    resolution: {integrity: sha512-cuTUW/Jybvh5O4/U9p61gyutHOjDtZyGQYuY99+bfnaFwqcDf2Nb+R6hMHY6DDen2H9wLKQSMpofWUgn2TI5JQ==}
+    engines: {node: '>=20.0.0'}
 
-  libqp@2.1.2:
-    resolution: {integrity: sha512-rp+U80tl9Os4K7GnVbPzPRmghPu6eqB8rcF+ontvNAnoga0JhMFG/bkTD/reC8yoznKMgOc5/ttZHJasiWeFPw==}
+  libqp@3.0.1:
+    resolution: {integrity: sha512-7QZxpPX25pga1WiMueduWxmrHMVBFrZPH6ZUaozGYa/H98JH6NVBSET3qVw+4NxzoraIW7rJ81YxSU9IalvCpg==}
+    engines: {node: '>=20.0.0'}
 
   linkify-it@5.0.2:
     resolution: {integrity: sha512-ONTm2jCMAVZjgQa/Fy1kScXsuOoF5NPTsoFBdE1KVIZ2vAh/r9+Bqo+0jINCBYnavTPQZz38QzFTme79ENoN3Q==}
 
-  mailparser@3.9.39:
-    resolution: {integrity: sha512-tFIEhwsNR4Xs5aq/8oBtd8aQZv42oLoDGWrne6rT/b3e0hN+o/k1KjaedWLh1NydVK35FiDaOTmGg9ZFhIsfYw==}
+  mailparser@3.12.3:
+    resolution: {integrity: sha512-kTQWGF7iiOYXZl69XHcV6uHSIYUU6NC/qvYxcpFSBdDmqrCdoLlu0OpdVyc6gumZtGxAIXIcBOHZLXy8No+Dtg==}
     engines: {node: '>=20.0.0'}
 
-  nodemailer@10.1.1:
-    resolution: {integrity: sha512-pbqZRoeYUO+1E8TJ/11WeY4D2EVujj1hsYjz3qff/vUFDtGnmi7p3iqzTFslYOfQ6PnjVcWxx/CIUSHCSrO/QA==}
+  nodemailer@10.1.7:
+    resolution: {integrity: sha512-OQa6FDln5fLttmqSbjDiRYvFDOFNrBqfiOwHPlEbURil3b+vPB1v8xpi+Sp46drzNDlsTnNsS502vthmz56r4w==}
+    engines: {node: '>=20.0.0'}
+
+  nodemailer@10.2.0:
+    resolution: {integrity: sha512-/XyGw6kX2stMdKGUJdAQmYAeY1FscWfdRydfd2NtK3A3KDfUUXCqZzExSNAt2xhh90X2qLCR+o2Gd48YPJcJwA==}
+    engines: {node: '>=20.0.0'}
+
+  nodemailer@10.2.1:
+    resolution: {integrity: sha512-ZrDNsPFoDMwefNs7sJwrYiEJ/CG4ClJWDZv05iNJsEBWa8GRDry1QJHTJxsuTAY9eDDKjX4k+q3SxslXJOao7w==}
     engines: {node: '>=20.0.0'}
 
   parseley@0.13.1:
@@ -126,8 +138,8 @@ packages:
   selderee@0.12.0:
     resolution: {integrity: sha512-b1YMh3+DHZp59DLna3qVwQ5iOla/nrI6mLBNW02XxU77M3046Df6VLkoaJyFz20VsGIG5kkp+FK0kg4K4HnUFw==}
 
-  smtp-server@3.19.22:
-    resolution: {integrity: sha512-tFAL2UmSPDvxSIpH809XcZ61Pri2uM/8/EmGO4ptf8fAsoOrHbCeyv5jWAVE21zKQk/OEzEQHgJYjfUQF8lFxw==}
+  smtp-server@3.21.0:
+    resolution: {integrity: sha512-vhJTg1JR6+mM5vlCD/TzUvFcQ5JQiCqP0FY3TgMJ0u3MPuvxawKD/6PA+TacPYEFVAgZIjLaCOSf87L4jcN0+w==}
     engines: {node: '>=20.0.0'}
 
   tlds@1.261.0:
@@ -150,11 +162,11 @@ snapshots:
       domhandler: 5.0.3
       selderee: 0.12.0
 
-  '@zone-eu/mailsplit@5.4.21':
+  '@zone-eu/mailsplit@5.4.29':
     dependencies:
-      libbase64: 1.3.3
-      libmime: 5.4.8
-      libqp: 2.1.2
+      libbase64: 1.4.1
+      libmime: 5.6.3
+      libqp: 3.0.1
 
   deepmerge-ts@8.0.2: {}
 
@@ -209,35 +221,37 @@ snapshots:
 
   leac@0.7.0: {}
 
-  libbase64@1.3.3: {}
+  libbase64@1.4.1: {}
 
-  libmime@5.4.8:
+  libmime@5.6.3:
     dependencies:
       encoding-japanese: 2.4.0
       iconv-lite: 0.7.3
-      libbase64: 1.3.3
-      libqp: 2.1.2
+      libbase64: 1.4.1
+      libqp: 3.0.1
 
-  libqp@2.1.2: {}
+  libqp@3.0.1: {}
 
   linkify-it@5.0.2:
     dependencies:
       uc.micro: 2.1.0
 
-  mailparser@3.9.39:
+  mailparser@3.12.3:
     dependencies:
-      '@zone-eu/mailsplit': 5.4.21
-      encoding-japanese: 2.4.0
+      '@zone-eu/mailsplit': 5.4.29
       he: 1.2.0
       html-to-text: 10.0.1
-      iconv-lite: 0.7.3
-      libmime: 5.4.8
+      libmime: 5.6.3
       linkify-it: 5.0.2
-      nodemailer: 10.1.1
+      nodemailer: 10.2.0
       punycode.js: 2.3.1
       tlds: 1.261.0
 
-  nodemailer@10.1.1: {}
+  nodemailer@10.1.7: {}
+
+  nodemailer@10.2.0: {}
+
+  nodemailer@10.2.1: {}
 
   parseley@0.13.1:
     dependencies:
@@ -254,10 +268,10 @@ snapshots:
     dependencies:
       parseley: 0.13.1
 
-  smtp-server@3.19.22:
+  smtp-server@3.21.0:
     dependencies:
       ipv6-normalize: 1.0.1
-      nodemailer: 10.1.1
+      nodemailer: 10.1.7
       punycode.js: 2.3.1
 
   tlds@1.261.0: {}
