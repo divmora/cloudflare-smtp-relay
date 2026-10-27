@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.1.0...v1.1.1) (2026-10-27)
+
+
+### Miscellaneous Chores
+
+* **deps:** bump dotenv, mailparser, and smtp-server ([e19a94d](https://github.com/divmora/cloudflare-smtp-relay/commit/e19a94d5042766adb8db87f6da0aed546cc08a6e))
+
 ## [1.1.0](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.0.4...v1.1.0) (2026-10-22)
 
 
