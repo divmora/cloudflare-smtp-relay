@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       dotenv:
-        specifier: ^18.0.8
-        version: 18.0.8
+        specifier: ^18.0.9
+        version: 18.0.9
       mailparser:
-        specifier: ^3.12.3
-        version: 3.12.3
+        specifier: ^3.12.4
+        version: 3.12.4
       smtp-server:
-        specifier: ^3.21.0
-        version: 3.21.0
+        specifier: ^3.21.1
+        version: 3.21.1
       yaml:
         specifier: ^2.9.1
         version: 2.9.1
@@ -53,8 +53,8 @@ packages:
   domutils@3.2.2:
     resolution: {integrity: sha512-6kZKyUajlDuqlHKVX1w7gyslj9MPIXzIFiz/rGu35uC1wMi+kMhQwGhl4lt9unC9Vb9INnY9Z3/ZA3+FhASLaw==}
 
-  dotenv@18.0.8:
-    resolution: {integrity: sha512-2KDeoFoK/zRtcnbunCDlLG5VWVMcyqeQc6iK65o231nfNAcuGrKoqUQfJFUtBI+QlShk5HKIHxwebBtUl3rEfA==}
+  dotenv@18.0.9:
+    resolution: {integrity: sha512-3fVOW4cB02R066PUSwn8O4TJyz9NckQl7F81blIbaq9jKBm2tSmOKky7ZHIXzGvkVPXCSn6jkpziBPZdGFs8Tw==}
     engines: {node: '>=12'}
     hasBin: true
 
@@ -106,16 +106,8 @@ packages:
   linkify-it@5.0.2:
     resolution: {integrity: sha512-ONTm2jCMAVZjgQa/Fy1kScXsuOoF5NPTsoFBdE1KVIZ2vAh/r9+Bqo+0jINCBYnavTPQZz38QzFTme79ENoN3Q==}
 
-  mailparser@3.12.3:
-    resolution: {integrity: sha512-kTQWGF7iiOYXZl69XHcV6uHSIYUU6NC/qvYxcpFSBdDmqrCdoLlu0OpdVyc6gumZtGxAIXIcBOHZLXy8No+Dtg==}
-    engines: {node: '>=20.0.0'}
-
-  nodemailer@10.1.7:
-    resolution: {integrity: sha512-OQa6FDln5fLttmqSbjDiRYvFDOFNrBqfiOwHPlEbURil3b+vPB1v8xpi+Sp46drzNDlsTnNsS502vthmz56r4w==}
-    engines: {node: '>=20.0.0'}
-
-  nodemailer@10.2.0:
-    resolution: {integrity: sha512-/XyGw6kX2stMdKGUJdAQmYAeY1FscWfdRydfd2NtK3A3KDfUUXCqZzExSNAt2xhh90X2qLCR+o2Gd48YPJcJwA==}
+  mailparser@3.12.4:
+    resolution: {integrity: sha512-FdoMF+S89/AQaJHY7StwTfABPHZ8Vey+CDyUno5j+TO0jF0UxM+la4Pe9MeqKqBO4Y9ZMB2eomdyg5i+jzpfZw==}
     engines: {node: '>=20.0.0'}
 
   nodemailer@10.2.1:
@@ -138,8 +130,8 @@ packages:
   selderee@0.12.0:
     resolution: {integrity: sha512-b1YMh3+DHZp59DLna3qVwQ5iOla/nrI6mLBNW02XxU77M3046Df6VLkoaJyFz20VsGIG5kkp+FK0kg4K4HnUFw==}
 
-  smtp-server@3.21.0:
-    resolution: {integrity: sha512-vhJTg1JR6+mM5vlCD/TzUvFcQ5JQiCqP0FY3TgMJ0u3MPuvxawKD/6PA+TacPYEFVAgZIjLaCOSf87L4jcN0+w==}
+  smtp-server@3.21.1:
+    resolution: {integrity: sha512-gj95f6YhcL0uu3m3FvRnQ6LSotursugAuVjK5V4f0f2C/4OSVpn/+h28F4pPJFob/myli9V+F7/Hxx9DJVdwvg==}
     engines: {node: '>=20.0.0'}
 
   tlds@1.261.0:
@@ -188,7 +180,7 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 5.0.3
 
-  dotenv@18.0.8: {}
+  dotenv@18.0.9: {}
 
   encoding-japanese@2.4.0: {}
 
@@ -236,20 +228,16 @@ snapshots:
     dependencies:
       uc.micro: 2.1.0
 
-  mailparser@3.12.3:
+  mailparser@3.12.4:
     dependencies:
       '@zone-eu/mailsplit': 5.4.29
       he: 1.2.0
       html-to-text: 10.0.1
       libmime: 5.6.3
       linkify-it: 5.0.2
-      nodemailer: 10.2.0
+      nodemailer: 10.2.1
       punycode.js: 2.3.1
       tlds: 1.261.0
-
-  nodemailer@10.1.7: {}
-
-  nodemailer@10.2.0: {}
 
   nodemailer@10.2.1: {}
 
@@ -268,10 +256,10 @@ snapshots:
     dependencies:
       parseley: 0.13.1
 
-  smtp-server@3.21.0:
+  smtp-server@3.21.1:
     dependencies:
       ipv6-normalize: 1.0.1
-      nodemailer: 10.1.7
+      nodemailer: 10.2.1
       punycode.js: 2.3.1
 
   tlds@1.261.0: {}
