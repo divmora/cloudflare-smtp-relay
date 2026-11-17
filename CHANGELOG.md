@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.2](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.1.1...v1.1.2) (2026-11-17)
+
+
+### Documentation
+
+* update security policy for 1.x releases ([#54](https://github.com/divmora/cloudflare-smtp-relay/issues/54)) ([b4d8070](https://github.com/divmora/cloudflare-smtp-relay/commit/b4d8070d1a32be1961069d25a7c02cbaccf17704))
+
+
+### Miscellaneous Chores
+
+* **deps:** bump dotenv, mailparser, smtp-server, and nodemailer ([#52](https://github.com/divmora/cloudflare-smtp-relay/issues/52)) ([af0d0e5](https://github.com/divmora/cloudflare-smtp-relay/commit/af0d0e5853f67635ab5da864f7a121618a0ad05a))
+
 ## [1.1.1](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.1.0...v1.1.1) (2026-10-27)
 
 
