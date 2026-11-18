@@ -98,12 +98,14 @@ smtp_users:
     }
   });
 
-  await t.test('rejects wrong credentials', async () => {
-    const bad = nodemailer.createTransport({ host: '127.0.0.1', port, secure: false, ignoreTLS: true, auth: { user: 'app', pass: 'wrong' } });
-    try {
-      await assert.rejects(() => bad.sendMail({ from: 'a@example.com', to: 'u@allowed.org', text: 'x' }), err => err.responseCode === 535);
-    } finally {
-      bad.close();
+  await t.test('rejects wrong credentials, including prefixes and extensions of the password', async () => {
+    for (const pass of ['wrong', 'secre', 'secret1', 'secret ']) {
+      const bad = nodemailer.createTransport({ host: '127.0.0.1', port, secure: false, ignoreTLS: true, auth: { user: 'app', pass } });
+      try {
+        await assert.rejects(() => bad.sendMail({ from: 'a@example.com', to: 'u@allowed.org', text: 'x' }), err => err.responseCode === 535);
+      } finally {
+        bad.close();
+      }
     }
   });
 });

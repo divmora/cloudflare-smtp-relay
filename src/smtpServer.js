@@ -21,11 +21,18 @@ function isAddressAllowed(email, allowedEmails, allowedDomains) {
   return false;
 }
 
-// Compares secrets in constant time (hashing first evens out the lengths).
+// Compares secrets in constant time. Both values are zero-padded to the same length
+// (timingSafeEqual needs equal lengths) and the real lengths are compared afterwards.
 function safeEqual(a, b) {
-  const ha = crypto.createHash('sha256').update(String(a)).digest();
-  const hb = crypto.createHash('sha256').update(String(b)).digest();
-  return crypto.timingSafeEqual(ha, hb);
+  const ba = Buffer.from(String(a), 'utf8');
+  const bb = Buffer.from(String(b), 'utf8');
+  const len = Math.max(ba.length, bb.length, 1);
+  const pa = Buffer.alloc(len);
+  const pb = Buffer.alloc(len);
+  ba.copy(pa);
+  bb.copy(pb);
+  const same = crypto.timingSafeEqual(pa, pb);
+  return same && ba.length === bb.length;
 }
 
 // User-level lists win when non-empty, otherwise the global lists apply.
