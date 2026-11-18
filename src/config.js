@@ -6,6 +6,8 @@ const CONFIG_PATH = process.env.SMTP_RELAY_CONFIG_PATH || './config.yml';
 
 let loadedConfig = { global: {}, users: {} };
 let reloadIntervalId = null;
+let lastLoadError = null;
+let everLoaded = false;
 
 function loadConfig() {
   try {
@@ -23,6 +25,8 @@ function loadConfig() {
           }
         });
       }
+      everLoaded = true;
+      lastLoadError = null;
       console.log(`[Config] Successfully loaded configuration from ${CONFIG_PATH}`);
 
       // Handle dynamic reload interval
@@ -42,8 +46,12 @@ function loadConfig() {
         reloadIntervalId = null;
         console.log(`[Config] Automatic configuration reload disabled.`);
       }
+    } else {
+      lastLoadError = 'file is empty';
     }
   } catch (e) {
+    lastLoadError = e.message;
+    // A failed reload keeps the last good configuration.
     console.warn(`[Config] WARNING: Could not load configuration from ${CONFIG_PATH}. Error: ${e.message}`);
   }
 }
@@ -57,6 +65,10 @@ loadConfig();
 
 module.exports = {
   loadConfig,
+  getConfigPath: () => CONFIG_PATH,
+  // True once a configuration file has been read successfully at least once.
+  isLoaded: () => everLoaded,
+  getLastLoadError: () => lastLoadError,
   getSMTPPort: () => loadedConfig.global.smtp_port || 587,
   getSMTPHost: () => loadedConfig.global.smtp_host || '127.0.0.1',
   getHealthPort: () => {
