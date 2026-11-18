@@ -43,7 +43,7 @@ function handleShutdown(signal) {
   setTimeout(() => {
     console.error('[Server] Forced shutdown after timeout.');
     process.exit(1);
-  }, 5000).unref();
+  }, 25000).unref();
 }
 
 process.on('SIGTERM', () => handleShutdown('SIGTERM'));

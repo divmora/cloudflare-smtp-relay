@@ -48,6 +48,10 @@ function loadConfig() {
   }
 }
 
+function numberOr(value, fallback, min) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= min ? value : fallback;
+}
+
 // Initial load
 loadConfig();
 
@@ -64,7 +68,13 @@ module.exports = {
     const v = loadedConfig.global.cloudflare_health_check_interval_ms;
     return typeof v === 'number' ? v : 60000;
   },
-  getCloudflareAccountID: () => loadedConfig.global.cloudflare_account_id,
-  getCloudflareAPIToken: () => loadedConfig.global.cloudflare_api_token,
+  getCloudflareRequestTimeoutMs: () => numberOr(loadedConfig.global.cloudflare_request_timeout_ms, 30000, 1),
+  // Maximum accepted message size in bytes (0 disables the limit). Default 25 MiB.
+  getMaxMessageSizeBytes: () => numberOr(loadedConfig.global.max_message_size_bytes, 25 * 1024 * 1024, 0),
+  // Maximum concurrent SMTP connections (0 means no limit).
+  getMaxClients: () => numberOr(loadedConfig.global.max_clients, 0, 0),
+  // Environment variables take precedence so secrets can come from a Kubernetes Secret or similar.
+  getCloudflareAccountID: () => process.env.CLOUDFLARE_ACCOUNT_ID || loadedConfig.global.cloudflare_account_id,
+  getCloudflareAPIToken: () => process.env.CLOUDFLARE_API_TOKEN || loadedConfig.global.cloudflare_api_token,
   getConfig: () => loadedConfig
 };

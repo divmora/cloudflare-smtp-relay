@@ -30,6 +30,13 @@ test('isAddressAllowed validation logic', async (t) => {
     assert.equal(isAddressAllowed('stranger@unrelated.com', allowedEmails, allowedDomains), false);
   });
 
+  await t.test('matches addresses and domains case-insensitively', () => {
+    assert.equal(isAddressAllowed('Alice@Example.COM', [], ['example.com']), true);
+    assert.equal(isAddressAllowed('alice@example.com', [], ['EXAMPLE.com']), true);
+    assert.equal(isAddressAllowed('Sender@Example.com', ['sender@example.com'], []), true);
+    assert.equal(isAddressAllowed('', ['sender@example.com'], []), false);
+  });
+
   await t.test('server can start listening and close without infinite loop or stack error', (_, done) => {
     const server = require('../src/smtpServer');
     server.listen(0, '127.0.0.1', () => {
