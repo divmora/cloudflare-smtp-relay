@@ -12,6 +12,20 @@ A robust, modular Node.js SMTP relay server designed to receive standard SMTP co
 
 ---
 
+## Do You Need This Relay?
+
+Cloudflare Email Service now offers its own [authenticated SMTP submission](https://developers.cloudflare.com/email-service/api/send-emails/smtp/) (beta): `smtp.mx.cloudflare.net`, port `465`, implicit TLS, with a Cloudflare API token as the password. **If your application can use that, connect it to Cloudflare directly.**
+
+This relay is still useful when:
+
+- **The client can't use port 465 with implicit TLS**, for example printers, appliances and older software that only speak plain SMTP or STARTTLS on port 587.
+- **You don't want every application to hold a Cloudflare API token.** Each app gets its own SMTP username and password; the single token stays on the relay.
+- **You want per-app sender and recipient allowlists** (`allowed_from_*`, `allowed_to_*`).
+
+> **Security:** the relay does not support inbound TLS yet, so SMTP passwords and message content cross the network in plain text. Run it only on a trusted network (same host, private Docker network or inside a Kubernetes cluster), never on a public interface.
+
+---
+
 ## Features
 
 - **Cloudflare API Integration:** Forwards emails reliably using Cloudflare's Email Sending API (`/email/sending/send`).
@@ -97,8 +111,11 @@ global:
   health_port: 8080                # Healthcheck HTTP port (default 8080, 0 disables)
   cloudflare_health_check_interval_ms: 60000 # How often to verify the Cloudflare token for /readyz (0 disables)
   config_refresh_interval_ms: 300000 # Interval (in ms) to reload config file (0 or omitted = disabled)
+  cloudflare_request_timeout_ms: 30000 # Timeout for each Cloudflare send request (default 30000)
+  max_message_size_bytes: 26214400 # Largest accepted message in bytes (default 25 MiB, 0 disables)
+  max_clients: 0                   # Max concurrent SMTP connections (default 0 = no limit)
   cloudflare_account_id: "YOUR_ACCOUNT_ID" # Cloudflare Account ID
-  cloudflare_api_token: "YOUR_API_TOKEN"   # Cloudflare API Bearer Token
+  cloudflare_api_token: "YOUR_API_TOKEN"   # Cloudflare API Bearer Token (or CLOUDFLARE_API_TOKEN env var)
   allowed_from_emails: []          # Default allowed sender emails (empty = no restriction)
   allowed_to_emails: []            # Default allowed recipient emails (empty = no restriction)
   allowed_from_domains: []         # Default allowed sender domains (e.g. "example.com")
@@ -116,7 +133,15 @@ smtp_users:
 ### Access Control & Validation Rules
 
 - **Precedence:** If a user specifies user-level `allowed_*` lists in `smtp_users`, those lists are evaluated for that user. If empty, the relay falls back to the corresponding `global.allowed_*` lists.
-- **Rule Matching:** If both `allowed_*_emails` and `allowed_*_domains` are empty, any address is permitted. If entries are present, an address is allowed if it matches **any** allowed email address OR its domain matches **any** allowed domain.
+- **Rule Matching:** If both `allowed_*_emails` and `allowed_*_domains` are empty, any address is permitted. If entries are present, an address is allowed if it matches **any** allowed email address OR its domain matches **any** allowed domain. Matching is case-insensitive.
+- **When checks run:** The envelope sender is checked at `MAIL FROM` and each envelope recipient at `RCPT TO`, so disallowed addresses are refused before the message is sent. Header `To`/`Cc`/`Bcc` addresses are checked again once the message is received.
+- **Reply codes:** Policy rejections and permanent Cloudflare errors (4xx other than 429) return a `5xx` reply so clients stop retrying. Timeouts, network errors, Cloudflare `429` and `5xx` responses return `451` so clients retry later. Oversized messages get `552`.
+
+### Recipients
+
+The message is delivered only to the SMTP envelope recipients (`RCPT TO`), as SMTP requires. Header `To` and `Cc` decide how each envelope recipient appears; envelope recipients not named in those headers are sent as `Bcc`. Addresses that appear in the headers but not in the envelope are not mailed.
+
+> `max_message_size_bytes` and `max_clients` are read at startup; changing them needs a restart. Other options are picked up by the hot reload.
 
 ---
 
@@ -125,6 +150,8 @@ smtp_users:
 | Variable | Description | Default |
 |---|---|---|
 | `SMTP_RELAY_CONFIG_PATH` | Path to the YAML configuration file | `./config.yml` |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API token; overrides `cloudflare_api_token` in the config file | – |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare Account ID; overrides `cloudflare_account_id` in the config file | – |
 | `PORT` / `SMTP_PORT` | (Optional) Port override for test client scripts | `587` |
 
 ---
@@ -165,7 +192,7 @@ Published Docker images are available from GitHub Container Registry:
 ```bash
 docker run -d \
   --name cloudflare-smtp-relay \
-  -p 587:587 \
+  -p 127.0.0.1:587:587 \
   -v $(pwd)/config.yml:/app/config.yml:ro \
   -e SMTP_RELAY_CONFIG_PATH=/app/config.yml \
   ghcr.io/divmora/cloudflare-smtp-relay:latest
@@ -177,13 +204,14 @@ docker run -d \
 
 Kubernetes manifests are provided in the `k8s/` folder:
 
-1. **Update `k8s/configmap.yaml`** with your Cloudflare credentials and SMTP user settings.
+1. **Update `k8s/secret.yaml`** with your Cloudflare Account ID, API token and SMTP users. Both the config (which holds SMTP passwords) and the token are stored as Secrets. For production, create them with your secret manager instead of committing the file.
 2. **Apply the manifests:**
    ```bash
-   kubectl apply -f k8s/configmap.yaml
+   kubectl apply -f k8s/secret.yaml
    kubectl apply -f k8s/deployment.yaml
    kubectl apply -f k8s/service.yaml
    ```
+   The Service is `ClusterIP`, so the relay is only reachable inside the cluster (`cloudflare-smtp-relay:587`). Keep it that way until inbound TLS is supported.
 3. Verify the deployment:
    ```bash
    kubectl get pods -l app=cloudflare-smtp-relay
@@ -245,17 +273,22 @@ cloudflare-smtp-relay/
 │       ├── docker-publish.yml # Docker image build & publish to GHCR
 │       ├── release-please.yml # Release Please automation via reusable workflow
 │       └── semantic-pull-request.yml # Semantic PR title linter
-├── k8s/                       # Kubernetes deployment, service, and configmap
-│   ├── configmap.yaml
+├── k8s/                       # Kubernetes deployment, service, and secrets
 │   ├── deployment.yaml
+│   ├── secret.yaml
 │   └── service.yaml
 ├── src/
 │   ├── cloudflare.js          # Cloudflare Sending API client
+│   ├── cloudflareHealth.js    # Periodic Cloudflare token check for /readyz
 │   ├── config.js              # Configuration loader & hot-reload manager
+│   ├── healthServer.js        # /healthz and /readyz HTTP endpoints
 │   └── smtpServer.js          # SMTPServer lifecycle, auth, and validation logic
-├── test/                      # Unit test suites (node --test)
+├── test/                      # Unit and end-to-end test suites (node --test)
 │   ├── cloudflare.test.js
+│   ├── cloudflareHealth.test.js
 │   ├── config.test.js
+│   ├── healthServer.test.js
+│   ├── relay.e2e.test.js
 │   └── smtpServer.test.js
 ├── .gitignore                 # Standard git ignore rules
 ├── .release-please-config.json # Release Please configuration
@@ -279,7 +312,7 @@ cloudflare-smtp-relay/
 
 ## Community & Contributing
 
-- **Product Roadmap:** Track planned capabilities, optimizations, and technical debt in [ROADMAP.md](ROADMAP.md).
+- **Product Roadmap:** The relay is in maintenance mode; the few planned items are in [ROADMAP.md](ROADMAP.md).
 - **AI Agents & Contributors:** Read [AGENTS.md](AGENTS.md) for code conventions, architecture maps, and guidelines.
 - **Contributions:** Read [CONTRIBUTING.md](CONTRIBUTING.md) to get started with pull requests and issues.
 - **Code of Conduct:** Please review our [Code of Conduct](https://github.com/divmora/.github/blob/main/CODE_OF_CONDUCT.md) (inherited from `.github`).

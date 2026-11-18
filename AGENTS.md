@@ -14,11 +14,17 @@ Welcome to the **Cloudflare SMTP Relay** codebase. This document outlines archit
    - Authenticates clients against credentials in `config.yml` (`onAuth`).
 2. **Parsing & Filtering (`src/smtpServer.js`)**:
    - Parses the MIME stream via `mailparser` (`simpleParser`).
-   - Validates envelope and header senders/recipients against configured domain/email allowlists (`allowed_from_emails`, `allowed_from_domains`, `allowed_to_emails`, `allowed_to_domains`).
+   - Checks the envelope sender at `MAIL FROM` and each envelope recipient at `RCPT TO`, then re-checks envelope and header senders/recipients after DATA, against the configured allowlists (`allowed_from_emails`, `allowed_from_domains`, `allowed_to_emails`, `allowed_to_domains`). Matching is case-insensitive.
+   - Enforces `max_message_size_bytes`; oversized messages are never forwarded.
    - Applies user-level rules if defined, falling back to global rules.
 3. **Upstream Forwarding (`src/cloudflare.js`)**:
    - Converts parsed data and attachments (base64 encoded) into the Cloudflare Email Sending API payload.
-   - Dispatches HTTPS POST request with Bearer authorization token.
+   - Delivers only to envelope recipients (`rcptTo`); header To/Cc only decide how they are shown, the rest go as Bcc.
+   - Dispatches HTTPS POST request with Bearer authorization token and a timeout (`cloudflare_request_timeout_ms`).
+   - Throws `RelayError` with an SMTP reply code: `451` for retryable failures (timeouts, network, 429, 5xx), `554` for permanent ones.
+
+### Maintenance Mode
+Cloudflare Email Service now has native SMTP submission (`smtp.mx.cloudflare.net:465`). This relay is kept for clients that can't use it (587/STARTTLS or plaintext only) and for per-app credentials and allowlists. Prefer small fixes and dependency updates; do not add large features beyond what `ROADMAP.md` lists.
 
 ### Living Product Roadmap Management
 `ROADMAP.md` is the central living document tracking future capabilities, optimizations, and technical debt:
@@ -39,9 +45,9 @@ Welcome to the **Cloudflare SMTP Relay** codebase. This document outlines archit
 | `ROADMAP.md` | Living product roadmap tracking pending features, optimizations, and technical debt. |
 | `test-client.js` | Standalone test script using `nodemailer` to simulate sending an email with attachments through the relay. |
 | `test/` | Automated unit test suite using Node.js native test runner (`node --test`). |
-| `Dockerfile` | Multi-stage / Alpine-based container definition using `node:26-alpine` and `pnpm`. |
+| `Dockerfile` | Alpine-based container definition using `node:26-alpine` and `pnpm`; runs as the unprivileged `node` user. |
 | `docker-compose.yml` | Local orchestration mounting `config.yml` read-only. |
-| `k8s/` | Kubernetes manifests (`deployment.yaml`, `service.yaml`, `configmap.yaml`). |
+| `k8s/` | Kubernetes manifests (`deployment.yaml`, `service.yaml` as ClusterIP, `secret.yaml` for config and token). The image tag in `deployment.yaml` is bumped by Release Please. |
 | `Makefile` | Standardized developer automation targets (`build`, `test`, `lint`, `fmt`, `clean`). |
 | `.release-please-config.json` | Release Please configuration defining package strategies and changelog sections. |
 | `.release-please-manifest.json` | Release Please manifest tracking the current package version. |
@@ -94,8 +100,11 @@ global:
   smtp_host: "0.0.0.0"             # Bind host (string)
   smtp_port: 587                   # Bind port (integer)
   config_refresh_interval_ms: 300000 # Hot-reload interval in ms (optional, 0 disables)
+  cloudflare_request_timeout_ms: 30000 # Cloudflare send timeout (default 30000)
+  max_message_size_bytes: 26214400 # Max message size (default 25 MiB, 0 disables; startup only)
+  max_clients: 0                   # Max concurrent connections (0 = no limit; startup only)
   cloudflare_account_id: "..."     # Cloudflare Account ID
-  cloudflare_api_token: "..."      # Cloudflare API Token (Email Sending permissions)
+  cloudflare_api_token: "..."      # Cloudflare API Token (Email Sending permissions); CLOUDFLARE_API_TOKEN env overrides
   allowed_from_emails: []          # Allow specific sender email addresses
   allowed_to_emails: []            # Allow specific recipient email addresses
   allowed_from_domains: []         # Allow specific sender domains (e.g. example.com)

@@ -57,6 +57,7 @@ global:
         mailFrom: { address: 'sender@example.com' },
         rcptTo: [
           { address: 'to1@example.com' },
+          { address: 'cc1@example.com' },
           { address: 'hidden_bcc@example.com' }
         ]
       };
@@ -72,7 +73,8 @@ global:
       assert.equal(body.from, 'sender@example.com');
       assert.equal(body.to, 'to1@example.com');
       assert.deepEqual(body.cc, ['cc1@example.com']);
-      assert.deepEqual(body.bcc, ['bcc1@example.com', 'hidden_bcc@example.com']);
+      // bcc1 is only in the headers, not the envelope, so it must not be mailed.
+      assert.deepEqual(body.bcc, ['hidden_bcc@example.com']);
       assert.equal(body.subject, 'Test Subject');
       assert.equal(body.text, 'Plain text body');
       assert.equal(body.html, '<p>HTML body</p>');
@@ -104,6 +106,66 @@ global:
         () => sendViaCloudflare(parsedEmail, { mailFrom: { address: 'sender@example.com' }, rcptTo: [{ address: 'to@example.com' }] }),
         /Cloudflare API error 400: Invalid recipient domain/
       );
+    } finally {
+      global.fetch = originalFetch;
+    }
+  });
+
+  await t.test('only mails envelope recipients and matches headers case-insensitively', () => {
+    const { splitRecipients } = require('../src/cloudflare');
+    const parsed = {
+      to: { value: [{ address: 'List@Example.com' }, { address: 'not-in-envelope@example.com' }] },
+      cc: { value: [{ address: 'cc@example.com' }] }
+    };
+    const envelope = { rcptTo: [{ address: 'list@example.com' }, { address: 'secret@example.com' }, { address: 'LIST@example.com' }] };
+    assert.deepEqual(splitRecipients(parsed, envelope), {
+      to: ['list@example.com'],
+      cc: [],
+      bcc: ['secret@example.com']
+    });
+  });
+
+  await t.test('promotes a recipient to To when headers name none', () => {
+    const { splitRecipients } = require('../src/cloudflare');
+    assert.deepEqual(splitRecipients({}, { rcptTo: [{ address: 'a@example.com' }, { address: 'b@example.com' }] }), {
+      to: ['a@example.com'],
+      cc: [],
+      bcc: ['b@example.com']
+    });
+    assert.deepEqual(splitRecipients({ cc: { value: [{ address: 'c@example.com' }] } }, { rcptTo: [{ address: 'c@example.com' }, { address: 'b@example.com' }] }), {
+      to: ['c@example.com'],
+      cc: [],
+      bcc: ['b@example.com']
+    });
+  });
+
+  const simpleMail = { from: { value: [{ address: 'sender@example.com' }] }, subject: 'Test' };
+  const simpleEnvelope = { mailFrom: { address: 'sender@example.com' }, rcptTo: [{ address: 'to@example.com' }] };
+
+  await t.test('maps Cloudflare errors to temporary or permanent SMTP codes', async () => {
+    const originalFetch = global.fetch;
+    try {
+      for (const [status, code] of [[400, 554], [403, 554], [429, 451], [500, 451], [503, 451]]) {
+        global.fetch = async () => ({ ok: false, status, text: async () => 'nope' });
+        await assert.rejects(() => sendViaCloudflare(simpleMail, simpleEnvelope), err => err.responseCode === code);
+      }
+      global.fetch = async () => { throw Object.assign(new Error('timed out'), { name: 'TimeoutError' }); };
+      await assert.rejects(() => sendViaCloudflare(simpleMail, simpleEnvelope), err => err.responseCode === 451 && /TimeoutError/.test(err.message));
+    } finally {
+      global.fetch = originalFetch;
+    }
+  });
+
+  await t.test('passes a timeout signal to fetch', async () => {
+    const originalFetch = global.fetch;
+    let signal = null;
+    global.fetch = async (url, options) => {
+      signal = options.signal;
+      return { ok: true, json: async () => ({ success: true }) };
+    };
+    try {
+      await sendViaCloudflare(simpleMail, simpleEnvelope);
+      assert.ok(signal instanceof AbortSignal);
     } finally {
       global.fetch = originalFetch;
     }

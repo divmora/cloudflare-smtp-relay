@@ -1,12 +1,15 @@
+# ClusterIP on purpose: the relay accepts SMTP passwords without TLS, so it should only be
+# reachable from inside the cluster. Do not change this to a LoadBalancer.
 apiVersion: v1
 kind: Service
 metadata:
   name: cloudflare-smtp-relay
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: cloudflare-smtp-relay
   ports:
-    - protocol: TCP
+    - name: smtp
+      protocol: TCP
       port: 587
-      targetPort: 587
+      targetPort: smtp

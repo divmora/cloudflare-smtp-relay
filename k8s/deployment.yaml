@@ -14,11 +14,19 @@ spec:
       labels:
         app: cloudflare-smtp-relay
     spec:
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: cloudflare-smtp-relay
-        image: ghcr.io/divmora/cloudflare-smtp-relay:latest
+        image: ghcr.io/divmora/cloudflare-smtp-relay:1.1.1 # x-release-please-version
         ports:
         - containerPort: 587
+          name: smtp
         - containerPort: 8080
           name: health
         livenessProbe:
@@ -32,6 +40,22 @@ spec:
         env:
         - name: SMTP_RELAY_CONFIG_PATH
           value: "/app/config.yml"
+        - name: CLOUDFLARE_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: smtp-relay-cloudflare
+              key: CLOUDFLARE_API_TOKEN
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            memory: 256Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
         volumeMounts:
         - name: config-volume
           mountPath: /app/config.yml
@@ -39,5 +63,5 @@ spec:
           readOnly: true
       volumes:
       - name: config-volume
-        configMap:
-          name: smtp-relay-config
+        secret:
+          secretName: smtp-relay-config

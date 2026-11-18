@@ -5,8 +5,11 @@ global:
   health_port: 8080                # Healthcheck HTTP port (0 disables)
   cloudflare_health_check_interval_ms: 60000 # How often to verify the Cloudflare token for /readyz (0 disables)
   config_refresh_interval_ms: 300000
+  cloudflare_request_timeout_ms: 30000 # Timeout for each Cloudflare send request
+  max_message_size_bytes: 26214400 # Largest accepted message (default 25 MiB, 0 disables; read at startup)
+  max_clients: 0                   # Max concurrent SMTP connections (0 = no limit; read at startup)
   cloudflare_account_id: "YOUR_ACCOUNT_ID"
-  cloudflare_api_token: "YOUR_API_TOKEN"
+  cloudflare_api_token: "YOUR_API_TOKEN"   # Or set CLOUDFLARE_API_TOKEN (env wins)
   allowed_from_emails: []
   allowed_to_emails: []
   allowed_from_domains: []
