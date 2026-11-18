@@ -114,8 +114,10 @@ async function sendViaCloudflare(parsedEmail, envelope) {
     const errorText = await response.text();
     const errMsg = `Cloudflare API error ${response.status}: ${errorText}`;
     console.error(`[Cloudflare] ${errMsg}`);
-    // 429 and 5xx are worth retrying; other 4xx (bad sender, bad payload) are permanent.
-    const retryable = response.status === 429 || response.status >= 500;
+    // Retry when the problem is on our side or temporary: 401/403 (bad, expired or
+    // under-scoped token, fixed by the operator), 429 (rate limited) and 5xx. Other 4xx
+    // (bad sender, bad payload) are permanent.
+    const retryable = [401, 403, 429].includes(response.status) || response.status >= 500;
     throw new RelayError(errMsg, retryable ? 451 : 554);
   }
 
