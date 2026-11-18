@@ -21,7 +21,7 @@ Welcome to the **Cloudflare SMTP Relay** codebase. This document outlines archit
    - Converts parsed data and attachments (base64 encoded) into the Cloudflare Email Sending API payload.
    - Delivers only to envelope recipients (`rcptTo`); header To/Cc only decide how they are shown, the rest go as Bcc.
    - Dispatches HTTPS POST request with Bearer authorization token and a timeout (`cloudflare_request_timeout_ms`).
-   - Throws `RelayError` with an SMTP reply code: `451` for retryable failures (timeouts, network, 429, 5xx), `554` for permanent ones.
+   - Throws `RelayError` with an SMTP reply code: `451` for retryable failures (timeouts, network, 401/403 token problems, 429, 5xx), `554` for permanent ones.
 
 ### Maintenance Mode
 Cloudflare Email Service now has native SMTP submission (`smtp.mx.cloudflare.net:465`). This relay is kept for clients that can't use it (587/STARTTLS or plaintext only) and for per-app credentials and allowlists. Prefer small fixes and dependency updates; do not add large features beyond what `ROADMAP.md` lists.
@@ -45,7 +45,7 @@ Cloudflare Email Service now has native SMTP submission (`smtp.mx.cloudflare.net
 | `ROADMAP.md` | Living product roadmap tracking pending features, optimizations, and technical debt. |
 | `test-client.js` | Standalone test script using `nodemailer` to simulate sending an email with attachments through the relay. |
 | `test/` | Automated unit test suite using Node.js native test runner (`node --test`). |
-| `Dockerfile` | Alpine-based container definition using `node:26-alpine` and `pnpm`; runs as the unprivileged `node` user. |
+| `Dockerfile` | Alpine-based container definition using `node:26-alpine` and `pnpm`; runs as root by default for compatibility; docker-compose and k8s run it as uid 1000. |
 | `docker-compose.yml` | Local orchestration mounting `config.yml` read-only. |
 | `k8s/` | Kubernetes manifests (`deployment.yaml`, `service.yaml` as ClusterIP, `secret.yaml` for config and token). The image tag in `deployment.yaml` is bumped by Release Please. |
 | `Makefile` | Standardized developer automation targets (`build`, `test`, `lint`, `fmt`, `clean`). |
