@@ -19,6 +19,12 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
+        fsGroup: 1000
+        # Lets the non-root user bind port 587. A "safe" sysctl, allowed by default since
+        # Kubernetes 1.22.
+        sysctls:
+        - name: net.ipv4.ip_unprivileged_port_start
+          value: "0"
         seccompProfile:
           type: RuntimeDefault
       containers:

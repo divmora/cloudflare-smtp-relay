@@ -145,7 +145,7 @@ global:
   await t.test('maps Cloudflare errors to temporary or permanent SMTP codes', async () => {
     const originalFetch = global.fetch;
     try {
-      for (const [status, code] of [[400, 554], [403, 554], [429, 451], [500, 451], [503, 451]]) {
+      for (const [status, code] of [[400, 554], [404, 554], [422, 554], [401, 451], [403, 451], [429, 451], [500, 451], [503, 451]]) {
         global.fetch = async () => ({ ok: false, status, text: async () => 'nope' });
         await assert.rejects(() => sendViaCloudflare(simpleMail, simpleEnvelope), err => err.responseCode === code);
       }

@@ -22,7 +22,7 @@ This relay is still useful when:
 - **You don't want every application to hold a Cloudflare API token.** Each app gets its own SMTP username and password; the single token stays on the relay.
 - **You want per-app sender and recipient allowlists** (`allowed_from_*`, `allowed_to_*`).
 
-> **Security:** the relay does not support inbound TLS yet, so SMTP passwords and message content cross the network in plain text. Run it only on a trusted network (same host, private Docker network or inside a Kubernetes cluster), never on a public interface.
+> **Security:** the relay has no TLS certificate configuration yet. It accepts SMTP passwords without TLS, and the `STARTTLS` it advertises uses a self-signed certificate built into the `smtp-server` library, whose key is public. Treat traffic as unencrypted: run the relay only on a trusted network (same host, private Docker network or inside a Kubernetes cluster), never on a public interface.
 
 ---
 
@@ -135,7 +135,7 @@ smtp_users:
 - **Precedence:** If a user specifies user-level `allowed_*` lists in `smtp_users`, those lists are evaluated for that user. If empty, the relay falls back to the corresponding `global.allowed_*` lists.
 - **Rule Matching:** If both `allowed_*_emails` and `allowed_*_domains` are empty, any address is permitted. If entries are present, an address is allowed if it matches **any** allowed email address OR its domain matches **any** allowed domain. Matching is case-insensitive.
 - **When checks run:** The envelope sender is checked at `MAIL FROM` and each envelope recipient at `RCPT TO`, so disallowed addresses are refused before the message is sent. Header `To`/`Cc`/`Bcc` addresses are checked again once the message is received.
-- **Reply codes:** Policy rejections and permanent Cloudflare errors (4xx other than 429) return a `5xx` reply so clients stop retrying. Timeouts, network errors, Cloudflare `429` and `5xx` responses return `451` so clients retry later. Oversized messages get `552`.
+- **Reply codes:** Policy rejections and permanent Cloudflare errors (4xx other than 401, 403 and 429) return a `5xx` reply so clients stop retrying. Timeouts, network errors, Cloudflare `401`/`403` (invalid, expired or under-scoped token), `429` and `5xx` responses return `451` so clients keep the message and retry later. Oversized messages get `552`.
 
 ### Recipients
 
@@ -217,6 +217,32 @@ Kubernetes manifests are provided in the `k8s/` folder:
    kubectl get pods -l app=cloudflare-smtp-relay
    kubectl get svc cloudflare-smtp-relay
    ```
+
+---
+
+### Running as Non-Root
+
+The image runs as root by default so it can bind port 587 on any container runtime. To run it as the unprivileged `node` user (uid 1000):
+
+- **Docker / Compose:** set `user: node` (as `docker-compose.yml` does). Docker's default bridge network allows non-root processes to bind port 587. With `network_mode: host` it does not, so use `smtp_port: 2525` (or any port >= 1024) there.
+- **Kubernetes:** set `runAsUser: 1000` and the pod sysctl `net.ipv4.ip_unprivileged_port_start: "0"` (as `k8s/deployment.yaml` does). The sysctl is allowed by default since Kubernetes 1.22. containerd 2.x allows low ports without it, containerd 1.x does not.
+- **Config file:** must be readable by uid 1000. With Kubernetes Secrets, `fsGroup: 1000` takes care of this.
+
+If the relay cannot bind its ports or read its config file, it logs the reason and exits with code 1, so Docker or Kubernetes restarts it and the failure shows up.
+
+---
+
+## Upgrading from 1.1.x
+
+Upgrading only the image keeps existing deployments working. These behaviour changes apply:
+
+- **Message size limit:** messages over 25 MiB are rejected with `552`. Set `max_message_size_bytes: 0` for no limit.
+- **Recipients:** mail goes only to SMTP envelope recipients (`RCPT TO`). Addresses that appear only in the `To`/`Cc` headers are no longer mailed.
+- **Reply codes:** blocked senders and recipients get a permanent `550` instead of a temporary `450`, so clients stop retrying.
+- **Allowlists** match case-insensitively.
+- **Environment variables:** `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, if set, override the config file.
+- **Startup failures:** an unreadable config file or a port that cannot be bound now stops the process (exit code 1) instead of leaving it running without serving mail.
+- **Kubernetes manifests:** `k8s/configmap.yaml` is replaced by `k8s/secret.yaml`, and the Service is `ClusterIP` instead of `LoadBalancer`. Existing clusters keep their current objects until you apply the new files.
 
 ---
 
