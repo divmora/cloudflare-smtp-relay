@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.3](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.1.2...v1.1.3) (2026-11-19)
+
+
+### Bug Fixes
+
+* harden relay and move to maintenance mode ([#55](https://github.com/divmora/cloudflare-smtp-relay/issues/55)) ([ca799ab](https://github.com/divmora/cloudflare-smtp-relay/commit/ca799ab5a94451a19cd9c43bcd05626d0300d4c0))
+* keep image upgrades compatible and fail fast on startup errors ([#57](https://github.com/divmora/cloudflare-smtp-relay/issues/57)) ([cd5ee8b](https://github.com/divmora/cloudflare-smtp-relay/commit/cd5ee8b47a61d915ac01e8dd734343725e507427))
+
 ## [1.1.2](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.1.1...v1.1.2) (2026-11-17)
 
 
