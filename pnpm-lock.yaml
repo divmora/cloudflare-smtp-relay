@@ -9,18 +9,18 @@ importers:
   .:
     dependencies:
       mailparser:
-        specifier: ^3.14.5
-        version: 3.14.5
+        specifier: ^3.15.0
+        version: 3.15.0
       smtp-server:
-        specifier: ^3.21.6
-        version: 3.21.6
+        specifier: ^3.21.7
+        version: 3.21.7
       yaml:
         specifier: ^2.9.1
         version: 2.9.1
     devDependencies:
       nodemailer:
-        specifier: ^10.6.0
-        version: 10.6.0
+        specifier: ^10.6.1
+        version: 10.6.1
 
 packages:
 
@@ -95,12 +95,12 @@ packages:
   linkify-it@6.1.0:
     resolution: {integrity: sha512-wJ/TwpSDTLepCrQoYWYIExIKg5Zchex2Nn5yk2mFnB+6PtdkHtyLx742md9csRjjOnGkKIS/RrbY7l8D6gT9Vw==}
 
-  mailparser@3.14.5:
-    resolution: {integrity: sha512-GVX8bONBtUW7FaakHZX2yUIxzWFAseKltj7GaoFnbwWEf8/+0a5WrjCH+WPJEyaNPFTf5tosEuKPwGkd5LpO6A==}
+  mailparser@3.15.0:
+    resolution: {integrity: sha512-vGKvLx7Hp9GEl0u+C/7V0v+ryYqwUksZSfNTvIqB8MM39AzQ5jrFgSxGXbpU9rVcDkt4hgRDVGneIme9oxLe3A==}
     engines: {node: '>=20.0.0'}
 
-  nodemailer@10.6.0:
-    resolution: {integrity: sha512-jWanL7D9GD3jvUDYKmoC5rWTiG8MnBgnN2yV68bgMKip1zUJhiSTyz7Eg+18y8sk5OvdVDzws5nZK5arSI4f5Q==}
+  nodemailer@10.6.1:
+    resolution: {integrity: sha512-d7kfFfS/tR4Aca+SBvRaQ+MXKNv7d2JiRe5TxaRcFT/kYMh4GGPnW9aKksTIEvyEbA7d/7HYWE4YPDEHxzJj/g==}
     engines: {node: '>=20.0.0'}
 
   parseley@0.13.1:
@@ -119,8 +119,8 @@ packages:
   selderee@0.12.0:
     resolution: {integrity: sha512-b1YMh3+DHZp59DLna3qVwQ5iOla/nrI6mLBNW02XxU77M3046Df6VLkoaJyFz20VsGIG5kkp+FK0kg4K4HnUFw==}
 
-  smtp-server@3.21.6:
-    resolution: {integrity: sha512-QlCb8T8eS6qpiehMRdrDrKUwg4CBCQBSzfNEUQudQUau3xfRUp93X19oOuvjKyryFuEYh1cPEdYhYa09XuePvg==}
+  smtp-server@3.21.7:
+    resolution: {integrity: sha512-HZtF8LivEuPtcVuoCYHa60GTHohwPpwz90GHUwm88Xg2tI4ZJCHWTzuS08uufMkme4qvReqD7vEQSdyRGbRQ2Q==}
     engines: {node: '>=20.0.0'}
 
   tlds@1.261.0:
@@ -213,18 +213,18 @@ snapshots:
     dependencies:
       uc.micro: 3.0.0
 
-  mailparser@3.14.5:
+  mailparser@3.15.0:
     dependencies:
       '@zone-eu/mailsplit': 5.4.31
       he: 1.2.0
       html-to-text: 10.0.1
       libmime: 5.6.5
       linkify-it: 6.1.0
-      nodemailer: 10.6.0
+      nodemailer: 10.6.1
       punycode.js: 2.3.1
       tlds: 1.261.0
 
-  nodemailer@10.6.0: {}
+  nodemailer@10.6.1: {}
 
   parseley@0.13.1:
     dependencies:
@@ -241,9 +241,9 @@ snapshots:
     dependencies:
       parseley: 0.13.1
 
-  smtp-server@3.21.6:
+  smtp-server@3.21.7:
     dependencies:
-      nodemailer: 10.6.0
+      nodemailer: 10.6.1
       punycode.js: 2.3.1
 
   tlds@1.261.0: {}
