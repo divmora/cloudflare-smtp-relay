@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.4](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.1.3...v1.1.4) (2026-11-23)
+
+
+### Bug Fixes
+
+* **deps:** bump mailparser, smtp-server and nodemailer patch versions ([#58](https://github.com/divmora/cloudflare-smtp-relay/issues/58)) ([2577cf8](https://github.com/divmora/cloudflare-smtp-relay/commit/2577cf85afe01c6f71ba0f3e22b4d86d70f764b9))
+
+
+### Continuous Integration
+
+* declare least-privilege permissions on caller workflows ([#60](https://github.com/divmora/cloudflare-smtp-relay/issues/60)) ([14fcb91](https://github.com/divmora/cloudflare-smtp-relay/commit/14fcb919254752d1bf3e2b677e2276c43772a0b9))
+
 ## [1.1.3](https://github.com/divmora/cloudflare-smtp-relay/compare/v1.1.2...v1.1.3) (2026-11-19)
 
 
